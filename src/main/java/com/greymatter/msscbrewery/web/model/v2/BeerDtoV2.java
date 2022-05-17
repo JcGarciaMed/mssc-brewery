@@ -1,4 +1,4 @@
-package com.greymatter.msscbrewery.web.model;
+package com.greymatter.msscbrewery.web.model.v2;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer {
+public class BeerDtoV2 {
     private UUID id;
-    private String name;
+    private String beerName;
+    private BeerStyleEnum beerStyle;
+    private Long upc;
 }
