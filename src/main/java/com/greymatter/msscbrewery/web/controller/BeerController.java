@@ -2,6 +2,9 @@ package com.greymatter.msscbrewery.web.controller;
 
 import com.greymatter.msscbrewery.web.model.BeerDto;
 import com.greymatter.msscbrewery.services.BeerService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/beer")
 public class BeerController {
 
     private final BeerService beerService;
-
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
 
     @GetMapping({"/{beerId}"})
     public ResponseEntity<BeerDto> getBeer(@NotNull @PathVariable("beerId") UUID beerId){
@@ -32,8 +33,9 @@ public class BeerController {
 
     @PostMapping
     public ResponseEntity handlePost(@Valid @RequestBody BeerDto beerDto){
-        BeerDto savedDto = beerService.saveNewBeer(beerDto);
-        HttpHeaders headers = new HttpHeaders();
+        log.debug("in handle post");
+        val savedDto = beerService.saveNewBeer(beerDto);
+        val headers = new HttpHeaders();
         headers.add("Location", "/api/v1/beer/" + savedDto.getId().toString());
         return new ResponseEntity(headers,HttpStatus.CREATED);
     }
